@@ -12,8 +12,6 @@ const isAdminRole = (req, res = response, next ) =>
 
     const { role, name } = req.authUser;
 
-    console.log(role);
-
     if( role !== 'ADMIN_ROLE')
     {
         return res.status(401).json({

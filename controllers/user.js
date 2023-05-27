@@ -1,14 +1,14 @@
 const { response } = require('express');
 const bcryptjs = require('bcryptjs')
 
-const user = require('../models/user');
+const User = require('../models/user');
 
 
 const userGet = async( req, res = response ) => {
 
     const { id } = req.params;
 
-    const user = await user.findById( id );
+    const user = await User.findById( id );
 
 
     res.json({
@@ -29,8 +29,8 @@ const userListGet = async( req, res = response ) => {
     }
 
     const promisesCollection = await Promise.all([
-        user.count({ state: true}),
-        user.find({ state: true })
+        User.count({ state: true}),
+        User.find({ state: true })
         .skip(Number( page ))
         .limit(Number( limit ))
     ])
@@ -46,8 +46,8 @@ const userPost = async( req, res = response ) => {
 
     // const { name } = req.body;
 
-    const { name, email, password, role } = req.body;
-    const user = new user( { name, email, password, role } )
+    const { name, email, password } = req.body;
+    const user = new User( { name, email, password } )
 
 
     //Encriptar la contraseña
@@ -75,7 +75,7 @@ const userPut = async( req, res = response ) => {
         userInfo.password = bcryptjs.hashSync( password, salt);
     }
 
-    const user = await user.findByIdAndUpdate( id, userInfo )
+    const user = await User.findByIdAndUpdate( id, userInfo )
 
     res.json({
         user
@@ -87,7 +87,7 @@ const userDelete = async( req, res = response ) => {
 
     const authenticateduser = req.authenticateduser;
 
-    const user = await user.findByIdAndUpdate( id, {state:false} )
+    const user = await User.findByIdAndUpdate( id, {state:false} )
 
     res.json({
         user,

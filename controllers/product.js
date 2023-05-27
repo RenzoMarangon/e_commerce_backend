@@ -1,3 +1,4 @@
+const { isProductInDb } = require('../database/db-validators');
 const Product = require('../models/product');
 
 const productGetAll = async( req, res = response ) => {
@@ -12,7 +13,7 @@ const productGetAll = async( req, res = response ) => {
 
 const productGetOne = async( req, res = response ) => {
 
-    const { id } = req.params;
+
 
     const product = await Product.findById( id );
 
@@ -23,9 +24,12 @@ const productGetOne = async( req, res = response ) => {
 
 const productPost = async( req, res = response ) => {
 
-    const { _id, name, price, description, category, stock } = req.body;
 
-    const newproduct = new Product({name, price, description, category, stock})
+    const {password, orders, google, state, __v, ...user}  = req.authUser;
+
+    const { _id, name, price, description, category, stock  } = req.body;
+
+    const newproduct = new Product({name, price, description, category, stock, user})
 
     await newproduct.save()
 
@@ -35,15 +39,21 @@ const productPost = async( req, res = response ) => {
 }
 const productPut = async( req, res = response ) => {
 
+    const { id } = req.params;
+
     const { _id, name, price, description, category, stock } = req.body;
 
-    const newproduct = new Product({name, price, description, category, stock})
+    const newproduct = { name, price, description, category, stock };
 
-    await Product.findByIdAndUpdate( id, newproduct )
-
+    const productUpdated = await Product.findByIdAndUpdate( id, newproduct )
 
     res.json({
-        newproduct
+        product:{
+            name: name || productUpdated.name,
+            description: description || productUpdated.description,
+            category: category || productUpdated.category,
+            stock: stock || productUpdated.stock
+        }
     })
 }
 const productDelete = async( req, res = response ) => {
@@ -51,7 +61,7 @@ const productDelete = async( req, res = response ) => {
     const { id } = req.params;
 
     // const product = await product.findByIdAndDelete( id );
-    const product = await product.findByIdAndUpdate( { state:false } )
+    const product = await Product.findByIdAndUpdate( id, { state:false } )
 
     res.json({
         deleted : product
