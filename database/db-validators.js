@@ -3,7 +3,6 @@ const User = require('../models/user');
 const Product = require('../models/product');
 const Category = require('../models/category');
 
-
 const isRoleInDB = async(role = '') => {
     const roleExist = await Role.findOne({ role });
     if( !roleExist )
@@ -96,5 +95,6 @@ module.exports = {
     isProductInDb,
     collectionsAllowed,
     categoryExist,
-    productExist
+    productExist,
+
 }

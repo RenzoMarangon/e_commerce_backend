@@ -80,9 +80,9 @@ const searchCategorys = async( object = '', res = response) => {
     //Expresion regular insensible a las mayusculas o minisculas
     const regex = RegExp( object, "i");
 
-    const categorys = await Product.find({ name: regex },{state:true});
+    const categorys = await Category.find({ name: regex, state:true });
 
-    const count = await Category.count({ name: regex },{state:true});
+    const count = await Category.count({ name: regex, state:true });
 
     return res.json({
         results: categorys,

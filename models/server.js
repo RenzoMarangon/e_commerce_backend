@@ -14,7 +14,8 @@ class Server {
             search   : '/api/search',
             upload   : '/api/upload',
             category : '/api/category',
-            product  : '/api/product'
+            product  : '/api/product',
+            order  : '/api/order',
         }
 
         //Conectar a DB
@@ -35,6 +36,7 @@ class Server {
       this.app.use( this.paths.user, require('../routes/user') );
       this.app.use( this.paths.category, require('../routes/category') );
       this.app.use( this.paths.product, require('../routes/product') );
+      this.app.use( this.paths.order, require('../routes/order') );
     }
 
 

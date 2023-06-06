@@ -25,15 +25,14 @@ router.post('/',[
     validateErrors,
 ], categoryPost);
 
-router.put('/',[
+router.put('/:id',[
     validateJWT,
     isAdminRole,
     check('id').isMongoId(),
-    check('name').custom( isCategoryInDb ),
     validateErrors,
 ],categoryPut)
 
-router.delete('/',[
+router.delete('/:id',[
     validateJWT,
     isAdminRole,
     check('id').isMongoId(),
