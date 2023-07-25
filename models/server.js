@@ -2,11 +2,16 @@ const express = require('express');
 const cors = require('cors');
 const { dbConnection } = require('../database/config');
 const fileUpload = require('express-fileupload');
+const socketController = require('../sockets/controller');
 
 class Server {
     constructor(){
         this.app = express();
         this.port = process.env.PORT;
+        this.server = require('http').createServer(this.app);
+        this.io = require('socket.io')(this.server);
+
+
         this.paths = 
         {
             user     : '/api/user',
@@ -26,6 +31,9 @@ class Server {
 
         //Routes
         this.routes();
+
+        //Socket.io
+        this.sockets();
     }
 
     routes(){
@@ -64,8 +72,13 @@ class Server {
     }
 
     listen(){
-        this.app.listen( this.port, ()=>{console.log('Server is listening port ', this.port)} );
+        this.server.listen( this.port, ()=>{console.log('Server is listening port ', this.port)} );
 
+    }
+
+    sockets()
+    {
+        this.io.on('connection', socketController);
     }
 }
 

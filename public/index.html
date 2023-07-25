@@ -7,7 +7,17 @@
     <title>Node api</title>
 </head>
 <body>
-    <h1>Google Sign-in</h1>
+    <h1>Server status: </h1>
+    <p id="online" style="color:green"><b>online</b></p>
+    <p id="offline" style="color:red"><b>offline</b></p>
+
+    <hr>
+
+    <input id="sendMsg" type="text">
+    <button id="buttonSendMsg">Enviar</button>
+
+
+    <h3>Google Sign-in</h3>
     <hr />
 
 
@@ -34,6 +44,8 @@
   </button>
 
 
+  <script src="./socket.io/socket.io.js"> </script>
+  <script src="./js/socket-client.js"> </script>
 
   <script src="https://accounts.google.com/gsi/client" async defer></script>
 
