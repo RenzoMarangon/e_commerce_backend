@@ -1,11 +1,13 @@
 const socketController = (socket) => 
 {
-    console.log('Cliente conecta3');
+    //console.log('Cliente conecta3');
 
+    /*
     socket.on('disconnect', () => 
     {
         console.log('Cliente desconecta3');
     })
+    */
 
     socket.on('send-msg', ( payload, callback ) => {
 
